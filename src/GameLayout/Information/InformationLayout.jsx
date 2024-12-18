@@ -1,7 +1,13 @@
 import styles from './info.module.css';
-import PropTypes from "prop-types";
+import {selectIsDrawing, selectIsGameEnded, selectCurrentPlayer} from '../../selectors/index.js'
+import {useSelector} from "react-redux";
 
-export const InformationLayout = ({isDraw, isGameEnded, currentPlayer}) => {
+export const InformationLayout = () => {
+    const isDraw = useSelector(selectIsDrawing);
+    const isGameEnded = useSelector(selectIsGameEnded);
+    const currentPlayer = useSelector(selectCurrentPlayer)
+
+
     return (<div className="info">
             {isDraw ? <div className="draw">
                 <p className={styles.p}>Ничья</p>
@@ -13,10 +19,4 @@ export const InformationLayout = ({isDraw, isGameEnded, currentPlayer}) => {
 
 
         </div>)
-}
-
-InformationLayout.propTypes = {
-    isDraw: PropTypes.bool,
-    currentPlayer: PropTypes.string,
-    isGameEnded: PropTypes.bool
 }

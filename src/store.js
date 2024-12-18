@@ -1,24 +1,9 @@
-import {appReducer, initialState} from "./reducer.js";
+import {applyMiddleware, combineReducers, createStore} from "redux";
+import {useReducer} from "./reducer.js";
+import {thunk} from "redux-thunk";
 
-const createStore = (reducer, initState) => {
-    let state = initState;
-    const listeners = [];
+const reducer = combineReducers({
+    stateGame: useReducer,
+})
 
-    return {
-        dispatch: (action) => {
-            state = reducer(state, action);
-            listeners.forEach(listener => listener());
-        },
-        getState: () => state,
-        subscribe: (listener) => {
-            listeners.push(listener);
-            return () => {
-                const index = listeners.indexOf(listener);
-                if (index > -1) {
-                    listeners.splice(index, 1);
-                }
-            };
-        },
-    };
-};
-export const store = createStore(appReducer, initialState);
+export const store = createStore(reducer, applyMiddleware(thunk))

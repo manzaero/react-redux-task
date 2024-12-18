@@ -1,0 +1,1 @@
+export const selectIsDrawing = state => state.stateGame.isDraw

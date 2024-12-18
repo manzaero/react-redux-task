@@ -1,18 +1,21 @@
-import PropTypes from "prop-types";
-import {store} from "../store.js";
+import {useDispatch, useSelector} from "react-redux";
+import {selectField, selectIsDrawing, selectIsGameEnded} from "../selectors/index.js";
+import {restart, togglePlayer} from "../actions/index.js";
 
-export function GameLayout({restart, isDraw, isGameEnded, field}) {
-    return (
-        <div className="container">
-            <button className="btn-restart" onClick={restart}>Заново
-            </button>
-            <button className="btn-restart btn-color" disabled={isDraw || isGameEnded || field.some((param) => param !== '') ?  true : null} onClick={() => store.dispatch({type: 'TOGGLE_GAME_STATUS'})}>Сменить игрока
-            </button>
-        </div>)
-}
-GameLayout.propTypes = {
-    restart: PropTypes.func.isRequired,
-    isDraw: PropTypes.bool,
-    isGameEnded: PropTypes.bool,
-    field: PropTypes.arrayOf(PropTypes.string),
+export function GameLayout() {
+    const isDraw = useSelector(selectIsDrawing);
+    const isGameEnded = useSelector(selectIsGameEnded);
+    const field = useSelector(selectField);
+
+
+    const dispatch = useDispatch();
+
+    return (<div className="container">
+        <button className="btn-restart" onClick={() => dispatch(restart())}>Заново
+        </button>
+        <button className="btn-restart btn-color"
+                disabled={isDraw || isGameEnded || field.some((param) => param !== '') ? true : null}
+                onClick={() => dispatch(togglePlayer())}>Сменить игрока
+        </button>
+    </div>)
 }

@@ -1,22 +1,28 @@
 import styles from "./field.module.css";
-import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
+import { selectField, selectIsGameEnded } from "../../selectors/index.js";
+import { stepClick } from "../../actions/index.js";
 
-export const Field = ({field, onClick, isGameEnded}) => {
+export const Field = () => {
+    const field = useSelector(selectField) || [];
+    const isGameEnded = useSelector(selectIsGameEnded);
+    const dispatch = useDispatch();
+
     return (
         <div className="canvas">
             <ul className={styles.grid}>
                 {field.map((item, index) => (
                     <li key={index}>
-                        <button className={styles.btn} disabled={field[index] || isGameEnded ? true : null} onClick={() => onClick(index)}>{item}</button>
+                        <button
+                            className={styles.btn}
+                            disabled={field[index] || isGameEnded}
+                            onClick={() => dispatch(stepClick(index))}
+                        >
+                            {item}
+                        </button>
                     </li>
                 ))}
             </ul>
         </div>
-    )
-}
-
-Field.propTypes = {
-    field: PropTypes.array.isRequired,
-    onClick: PropTypes.func.isRequired,
-    isGameEnded: PropTypes.bool
-}
+    );
+};

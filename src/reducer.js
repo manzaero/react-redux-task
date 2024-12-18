@@ -16,15 +16,15 @@ export const useReducer = (state = initialState, action) => {
         case 'SET_GAME_STATUS': {
             return {
                 ...state,
-                isGameEnded: action.isGameEnded,
-                isDraw: action.isDraw
+                isGameEnded: action.payload.isGameEnded,
+                isDraw: action.payload.isDraw
             }
         }
         case 'UPDATE_GAME_STATUS': {
-            console.log("Updated field:", action.field)
+            console.log("Updated field:", action.payload.field)
             return {
                 ...state,
-                field: action.field,
+                field: action.payload.field,
             }
         }
         case 'RESET_GAME_STATUS': {
